@@ -22,3 +22,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
+}
+
+stage.dependsOn(copyToLib)
